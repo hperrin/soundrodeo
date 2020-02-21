@@ -1,9 +1,9 @@
 {
-	"background_color": "#ffffff",
-	"theme_color": "#333333",
-	"name": "TODO",
-	"short_name": "TODO",
-	"display": "minimal-ui",
+	"background_color": "#000000",
+	"theme_color": "#1565c0",
+	"name": "Sound Rodeo",
+	"short_name": "Sound Rodeo",
+	"display": "standalone",
 	"start_url": "/",
 	"icons": [
 		{
