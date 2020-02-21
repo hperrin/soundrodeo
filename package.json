@@ -9,7 +9,7 @@
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "pages": "npm install && npm run export && git add . && git commit -m 'Export site.' && git push origin $(git subtree split --prefix dist master):gh-pages --force && git reset --hard HEAD^ && rm -r dist",
+    "deploy": "npm install && rm -rf __sapper__/export && npm run export && cd __sapper__/export && git init && git add . && git commit -m 'Export site.' && git remote add origin git@github.com:hperrin/soundrodeo.git && git push --force origin master:gh-pages && cd ../..",
     "test": "run-p --race dev cy:run"
   },
   "repository": {
