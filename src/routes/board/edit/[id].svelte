@@ -79,6 +79,8 @@
     board = {
       id: `${Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)}`,
       name: "",
+      sounds: [],
+      size: 1,
       level: 0
     };
   } while ($boards.filter(b => b.id === board.id).length);

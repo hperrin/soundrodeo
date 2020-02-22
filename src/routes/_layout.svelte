@@ -54,12 +54,12 @@
       <List>
         {#each $boards as board, i (board.id)}
           <Item
-            href={editMode ? null : `board/${board.id}`}
+            href={$editMode ? null : `board/${board.id}`}
             on:click={() => pickBoard()}
             activated={pathname === `/board/${board.id}` || pathname === `/board/edit/${board.id}`}
             title={board.name}
             style={board.level ? 'margin-left: ' + board.level * 25 + 'px;' : ''}>
-            {#if editMode}
+            {#if $editMode}
               <IconButton href={`board/edit/${board.id}`} title="Edit">
                 <Icon>
                   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -107,10 +107,12 @@
           </Icon>
         </IconButton>
         {#if $boards.length}
-          <IconButton on:click={() => (editMode = !editMode)} title="Edit Mode">
+          <IconButton
+            on:click={() => ($editMode = !$editMode)}
+            title="Edit Mode">
             <Icon>
               <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="#FFFFFF" d={editMode ? mdiPencilOff : mdiPencil} />
+                <path fill="#FFFFFF" d={$editMode ? mdiPencilOff : mdiPencil} />
               </svg>
             </Icon>
           </IconButton>
@@ -143,7 +145,7 @@
     mdiArrowUp,
     mdiArrowDown
   } from "@mdi/js";
-  import { working, boards } from "../stores";
+  import { working, boards, editMode } from "../stores";
 
   import "./_app.scss";
 
@@ -161,7 +163,6 @@
   let mainContent;
   let miniWindow = false;
   let drawerOpen = false;
-  let editMode = false;
 
   onMount(setMiniWindow);
 

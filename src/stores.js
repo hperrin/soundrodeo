@@ -16,7 +16,9 @@ if (typeof window !== "undefined") {
 
     try {
       const version = await localforage.getItem("version");
+      console.log({ version });
       if (version !== 1) {
+        console.log("reset");
         await localforage.setItem("version", 1);
         await localforage.setItem("boards", []);
       }
@@ -26,7 +28,6 @@ if (typeof window !== "undefined") {
 
     try {
       let value = await localforage.getItem("boards");
-      value = value.filter(board => board.version === 1);
       boards.set(value);
     } catch (err) {
       setError.set(err);
@@ -62,6 +63,8 @@ export const error = readable(false, set => {
 
   return unsubscribe;
 });
+
+export const editMode = writable(false);
 
 export const boards = writable([]);
 boards.subscribe(async value => {
