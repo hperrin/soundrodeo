@@ -41,6 +41,7 @@
     "@smui/drawer": "^1.0.0-beta.20",
     "@smui/icon-button": "^1.0.0-beta.20",
     "@smui/list": "^1.0.0-beta.20",
+    "@smui/textfield": "^1.0.0-beta.20",
     "@smui/top-app-bar": "^1.0.0-beta.20",
     "localforage": "^1.7.3",
     "node-sass": "^4.13.1",

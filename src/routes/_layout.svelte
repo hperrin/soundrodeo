@@ -18,6 +18,16 @@
       </Title>
     </Section>
     <Section align="end" toolbar>
+      <IconButton disabled title={$working ? 'Working...' : 'Ready'}>
+        <Icon>
+          <svg
+            style="width:24px;height:24px"
+            viewBox="0 0 24 24"
+            class:spin={$working}>
+            <path fill="#FFFFFF" d={$working ? mdiLoading : mdiCheck} />
+          </svg>
+        </Icon>
+      </IconButton>
       <IconButton href="https://twitter.com/SciActive">
         <Icon>
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -42,18 +52,70 @@
     class="main-drawer {miniWindow ? 'main-drawer-adjust' : ''}">
     <Content>
       <List>
-        {#each sections as section (section.name)}
+        {#each $boards as board, i (board.id)}
           <Item
-            bind:this={section.component}
-            href={'route' in section ? section.route : section.shortcut}
-            on:click={() => pickSection(section)}
-            activated={'route' in section && section.route === $page.path}
-            title={section.name}
-            style={section.indent ? 'margin-left: ' + section.indent * 25 + 'px;' : ''}>
-            <Text>{section.name}</Text>
+            href={editMode ? null : `board/${board.id}`}
+            on:click={() => pickBoard()}
+            activated={pathname === `/board/${board.id}` || pathname === `/board/edit/${board.id}`}
+            title={board.name}
+            style={board.level ? 'margin-left: ' + board.level * 25 + 'px;' : ''}>
+            {#if editMode}
+              <IconButton href={`board/edit/${board.id}`} title="Edit">
+                <Icon>
+                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="#FFFFFF" d={mdiPencil} />
+                  </svg>
+                </Icon>
+              </IconButton>
+              {#if i > 0}
+                <IconButton
+                  on:click={() => ($boards = [...$boards.slice(0, i - 1), board, $boards[i - 1], ...$boards.slice(i + 1)])}
+                  title="Move Up">
+                  <Icon>
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                      <path fill="#FFFFFF" d={mdiArrowUp} />
+                    </svg>
+                  </Icon>
+                </IconButton>
+              {/if}
+              {#if i < $boards.length - 1}
+                <IconButton
+                  on:click={() => ($boards = [...$boards.slice(0, i), $boards[i + 1], board, ...$boards.slice(i + 2)])}
+                  title="Move Down">
+                  <Icon>
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                      <path fill="#FFFFFF" d={mdiArrowDown} />
+                    </svg>
+                  </Icon>
+                </IconButton>
+              {/if}
+            {/if}
+            <Text>{board.name}</Text>
+          </Item>
+        {:else}
+          <Item disabled>
+            <Text>You've got no boards.</Text>
           </Item>
         {/each}
       </List>
+      <div style="display: flex; justify-content: flex-end;">
+        <IconButton href="/board/edit" title="New Board">
+          <Icon>
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="#FFFFFF" d={mdiPlus} />
+            </svg>
+          </Icon>
+        </IconButton>
+        {#if $boards.length}
+          <IconButton on:click={() => (editMode = !editMode)} title="Edit Mode">
+            <Icon>
+              <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path fill="#FFFFFF" d={editMode ? mdiPencilOff : mdiPencil} />
+              </svg>
+            </Icon>
+          </IconButton>
+        {/if}
+      </div>
     </Content>
   </Drawer>
 
@@ -68,9 +130,20 @@
 </div>
 
 <script>
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
   import { stores } from "@sapper/app";
-  import { mdiTwitter, mdiGithubCircle } from "@mdi/js";
+  import {
+    mdiLoading,
+    mdiCheck,
+    mdiTwitter,
+    mdiGithubCircle,
+    mdiPlus,
+    mdiPencil,
+    mdiPencilOff,
+    mdiArrowUp,
+    mdiArrowDown
+  } from "@mdi/js";
+  import { working, boards } from "../stores";
 
   import "./_app.scss";
 
@@ -84,27 +157,21 @@
 
   const { page } = stores();
 
+  let pathname = $page.path;
   let mainContent;
   let miniWindow = false;
   let drawerOpen = false;
-
-  const sections = [
-    {
-      name: "What is Sapper",
-      route: "/blog/what-is-sapper",
-      indent: 0
-    }
-  ];
+  let editMode = false;
 
   onMount(setMiniWindow);
 
-  function pickSection(section) {
+  afterUpdate(() => {
+    pathname = window.location.pathname;
+  });
+
+  function pickBoard() {
     drawerOpen = false;
     mainContent.scrollTop = 0;
-
-    // Svelte/Sapper is not updated the components correctly, so I need this.
-    sections.forEach(section => section.component.$set({ activated: false }));
-    section.component.$set({ activated: true });
   }
 
   function setMiniWindow() {
