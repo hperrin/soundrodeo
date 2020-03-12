@@ -1,0 +1,20 @@
+{
+  "background_color": "#000000",
+  "theme_color": "#1565c0",
+  "name": "Sound Rodeo",
+  "short_name": "Sound Rodeo",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
