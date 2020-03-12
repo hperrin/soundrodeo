@@ -54,7 +54,7 @@
 <script>
   import { stores, goto } from "@sapper/app";
   import { mdiPencil, mdiDelete } from "@mdi/js";
-  import { loading, boards, editMode } from "../../stores.js";
+  import { loading, boards, editMode } from "../../stores.svelte";
 
   import Card, {
     Content,

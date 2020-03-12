@@ -28,6 +28,15 @@
           </svg>
         </Icon>
       </IconButton>
+      {#if $boards.length}
+        <IconButton on:click={() => ($editMode = !$editMode)} title="Edit Mode">
+          <Icon>
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="#FFFFFF" d={$editMode ? mdiPencilOff : mdiPencil} />
+            </svg>
+          </Icon>
+        </IconButton>
+      {/if}
       <IconButton href="https://twitter.com/SciActive">
         <Icon>
           <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -106,17 +115,6 @@
             </svg>
           </Icon>
         </IconButton>
-        {#if $boards.length}
-          <IconButton
-            on:click={() => ($editMode = !$editMode)}
-            title="Edit Mode">
-            <Icon>
-              <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="#FFFFFF" d={$editMode ? mdiPencilOff : mdiPencil} />
-              </svg>
-            </Icon>
-          </IconButton>
-        {/if}
       </div>
     </Content>
   </Drawer>
@@ -145,7 +143,7 @@
     mdiArrowUp,
     mdiArrowDown
   } from "@mdi/js";
-  import { working, boards, editMode } from "../stores";
+  import { working, boards, editMode } from "../stores.svelte";
 
   import "./_app.scss";
 

@@ -13,7 +13,7 @@
 
 <script>
   import { mdiLoading } from "@mdi/js";
-  import { loading } from "../../stores.js";
+  import { loading } from "../../stores.svelte";
 </script>
 
 <style>

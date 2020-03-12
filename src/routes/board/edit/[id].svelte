@@ -64,7 +64,7 @@
 
 <script>
   import { stores, goto } from "@sapper/app";
-  import { loading, boards } from "../../../stores.js";
+  import { loading, boards } from "../../../stores.svelte";
 
   import Textfield from "@smui/textfield";
   import HelperText from "@smui/textfield/helper-text";
